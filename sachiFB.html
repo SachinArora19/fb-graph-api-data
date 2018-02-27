@@ -13,23 +13,8 @@
 	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 	<!-- Added css stylesheet link -->
 	<title>About Me from Facebook</title>
-	<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
+	<!-- Added css stylesheet link -->
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div class="flex-container">
@@ -111,101 +96,9 @@ tr:nth-child(even) {
 <div class="container" id="fbFeedcontainer"></div>
 </div>
 </body>
+<!-- Below first script is for adding ajax, second is for basic java animations and third and fourth for methods for populating about me and feeds -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$('.aboutMe_li').click(function(){
-		$('.aboutMe_li').addClass('active');
-		$('.feeds_li').removeClass('active');
-		$('#aboutMe').show();
-		$('#feeds').hide();
-		AboutMethod();
-	});
-	$('.feeds_li').click(function(){
-		$('.feeds_li').addClass('active');
-		$('.aboutMe_li').removeClass('active');
-		$('#aboutMe').hide();
-		$('#feeds').show();
-		FeedMethod();
-	});
-	if($('.aboutMe_li').hasClass( "active" ))
-	{
-		$('#aboutMe').show();
-		$('#feeds').hide();
-		AboutMethod();
-	}
-	if($('.feeds_li').hasClass( "active" ))
-	{
-		$('#aboutMe').hide();
-		$('#feeds').show();
-		FeedMethod();
-	}
-});
- //Below method is to fetch the data from the fb API for about me
-function AboutMethod(){
- //below JS variable token Fb used to store token value and apiabouturl variable to store api
- var tokenFB = 'EAACEdEose0cBAMe1pxqExB1vTZAXPVInxcfOMzENf4x2ZBwn8CQNnRxc0OD141SWQSAlZAkvZAvQNGXUFZBl0YMAJeLZAAFs7hYWa5RKTx0AGdMyG9FtkEyUqXoRZAJQX39i6oPyJYeUI9zWyTJbprLm8ucXdeCcdVbcDQfyBW0sx158xuLUsHuf5ofVM14ZAyMZD';
- var apiAboutUrl = 'https://graph.facebook.com/v2.12/me?fields=id%2Cname%2Cemail%2Cabout%2Caddress%2Cbirthday%2Ceducation%2Cfirst_name%2Cgender%2Chometown%2Cage_range&access_token='+tokenFB;
- 
- $.ajax({
-			url: apiAboutUrl,
-			success: function(result)
-			{
-				console.log(result);
-				$('#fbId').html(result.id);
-				$('#fbName').html(result.name);
-				$('#fbEmailId').html(result.email);
-				$('#fbAboutMe').html(result.about);
-				$('#fbBirthday').html(result.birthday);
-				$('#fbGender').html(result.gender);
-				$('#fbHomeTown').html(result.hometown.name);
-			},
-			error:function()
-			{
-				alert('sorry unable to fetch the data. check the token value');
-			},
-			complete: function () 
-			{
-				alert("Data Loaded Successfully.");
-			}
-	});
-};
-
- //Below method is to fetch the data from the fb API for feeds
-function FeedMethod(){
- //below JS variable token Fb used to store token value and apiabouturl variable to store api
- var tokenFB = 'EAACEdEose0cBAMe1pxqExB1vTZAXPVInxcfOMzENf4x2ZBwn8CQNnRxc0OD141SWQSAlZAkvZAvQNGXUFZBl0YMAJeLZAAFs7hYWa5RKTx0AGdMyG9FtkEyUqXoRZAJQX39i6oPyJYeUI9zWyTJbprLm8ucXdeCcdVbcDQfyBW0sx158xuLUsHuf5ofVM14ZAyMZD';
- var apiFeedUrl = 'https://graph.facebook.com/v2.12/me?fields=feed&access_token='+tokenFB;
- 
- $.ajax({
-			url: apiFeedUrl,
-			success: function(result)
-			{
-				console.log(result);
-				//$('#fbFeedcontainer').html(result.feed.data[0]);
-				$.each(result.feed.data, function (res) {
-					//console.log('message='+result.feed.data[res].message);
-					//console.log('story='+result.feed.data[res].story);
-				if(result.feed.data[res].message)
-				{
-					$('#fbFeedcontainer').append('<p style="font-size:2vw;">'+result.feed.data[res].message+'<br /><a style="color:gray;font-size:1vw;">dated:'+result.feed.data[res].created_time+'</a></p><hr>');
-				}
-				else
-				{
-					$('#fbFeedcontainer').append('<p style="font-size:2vw;">'+result.feed.data[res].story+'<br /><a style="color:gray;font-size:1vw;">dated:'+result.feed.data[res].created_time+'</a></p><hr>');	
-				}
-				});
-			},
-			error:function()
-			{
-				alert('sorry unable to fetch the data. check the token value');
-			},
-			complete: function () 
-			{
-				alert("Data Loaded Successfully.");
-			}
-	});
-};
- 
-</script>
+<script type="text/javascript" src="MainJS.js"></script>
+<script type="text/javascript" src="about.js"></script>
+<script type="text/javascript" src="feed.js"></script>
 </html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap css and Jquery cdn link added -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<!-- Added css stylesheet link -->
+	<title>About Me from Facebook</title>
+	<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<div class="flex-container">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item aboutMe_li active">
+      <a class="nav-link" href="#">About Me</a>
+  </li>
+    <li class="nav-item feeds_li">
+      <a class="nav-link" href="#">Feeds</a>
+    </li>
+  </ul>
+</nav>
+<div id="aboutMe">
+	<H2 style="text-align:center">About Me</H2>
+	<table>
+	  <tr>
+	  <th>
+	  Fields
+	  </th>
+	  <th>
+	  Result (Coming from FB API)
+	  </th>
+	  </tr>
+	  <tr>
+	  <td>
+	  Facebook ID
+	  </td>
+	  <td id="fbId">
+	  </td>
+	  </tr>
+	  <tr>
+	  <td>
+	  Name
+	  </td>
+	  <td id="fbName">
+	  </td>
+	  </tr>
+	  <tr>
+	  <td>
+	  Email ID
+	  </td>
+	  <td id="fbEmailId">
+	  </td>
+	  </tr>
+	  <tr>
+	  <td>
+	  About Me
+	  </td>
+	  <td id="fbAboutMe">
+	  </td>
+	  </tr>
+	  <tr>
+	  <td>
+	  Birthday
+	  </td>
+	  <td id="fbBirthday">
+	  </td>
+	  </tr>
+	  <tr>
+	  <td>
+	  Gender
+	  </td>
+	  <td id="fbGender">
+	  </td>
+	  </tr>
+	  <tr>
+	  <td>
+	  HomeTown
+	  </td>
+	  <td id="fbHomeTown">
+	  </td>
+	  </tr>
+	  </table>
+    
+</div>
+<div id="feeds">
+<H2 style="text-align:center">Feeds</H2>
+<div class="container" id="fbFeedcontainer"></div>
+</div>
+</body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.aboutMe_li').click(function(){
+		$('.aboutMe_li').addClass('active');
+		$('.feeds_li').removeClass('active');
+		$('#aboutMe').show();
+		$('#feeds').hide();
+		AboutMethod();
+	});
+	$('.feeds_li').click(function(){
+		$('.feeds_li').addClass('active');
+		$('.aboutMe_li').removeClass('active');
+		$('#aboutMe').hide();
+		$('#feeds').show();
+		FeedMethod();
+	});
+	if($('.aboutMe_li').hasClass( "active" ))
+	{
+		$('#aboutMe').show();
+		$('#feeds').hide();
+		AboutMethod();
+	}
+	if($('.feeds_li').hasClass( "active" ))
+	{
+		$('#aboutMe').hide();
+		$('#feeds').show();
+		FeedMethod();
+	}
+});
+ //Below method is to fetch the data from the fb API for about me
+function AboutMethod(){
+ 
+ var tokenFB = 'EAACEdEose0cBALA4JHbOZC3HWFi4B2lZBOZCfiGTGBIhO516xSWper5bK9RuMtsPQx7ArRTM98ixnyOBOWf97i3ysaNoyPIedhbibasXUsPJUSbiF6I6vtq5bS4Dnp29ADJ7o9xXW22he78fE0P5mtJ3auLZCvEAqZBJ12ZBmEPBVtmwcZC54bPHGZCTWQ0qGskZD';
+ var apiAboutUrl = 'https://graph.facebook.com/v2.12/me?fields=id%2Cname%2Cemail%2Cabout%2Caddress%2Cbirthday%2Ceducation%2Cfirst_name%2Cgender%2Chometown%2Cage_range&access_token='+tokenFB;
+ 
+ $.ajax({
+			url: apiAboutUrl,
+			success: function(result)
+			{
+				console.log(result);
+				$('#fbId').html(result.id);
+				$('#fbName').html(result.name);
+				$('#fbEmailId').html(result.email);
+				$('#fbAboutMe').html(result.about);
+				$('#fbBirthday').html(result.birthday);
+				$('#fbGender').html(result.gender);
+				$('#fbHomeTown').html(result.hometown.name);
+			},
+			error:function(result)
+			{
+				alert('sorry unable to fetch the data. check the token value');
+			},
+			complete: function (jqXHR, status) 
+			{
+				alert("Data Loaded Successfully.");
+			}
+	});
+};
+
+ //Below method is to fetch the data from the fb API for feeds
+function FeedMethod(){
+ 
+ var tokenFB = 'EAACEdEose0cBALA4JHbOZC3HWFi4B2lZBOZCfiGTGBIhO516xSWper5bK9RuMtsPQx7ArRTM98ixnyOBOWf97i3ysaNoyPIedhbibasXUsPJUSbiF6I6vtq5bS4Dnp29ADJ7o9xXW22he78fE0P5mtJ3auLZCvEAqZBJ12ZBmEPBVtmwcZC54bPHGZCTWQ0qGskZD';
+ var apiFeedUrl = 'https://graph.facebook.com/v2.12/me?fields=feed&access_token='+tokenFB;
+ 
+ $.ajax({
+			url: apiFeedUrl,
+			success: function(result)
+			{
+				console.log(result);
+				//$('#fbFeedcontainer').html(result.feed.data[0]);
+				$.each(result.feed.data, function () {
+				console.log(result.feed.data.message);
+				$('#fbFeedcontainer').append('<p>'+result.feed.data.message+'</p>');
+				});
+				
+			},
+			error:function(result)
+			{
+				alert('sorry unable to fetch the data. check the token value');
+			},
+			complete: function (jqXHR, status) 
+			{
+				alert("Data Loaded Successfully.");
+			}
+	});
+};
+ 
+</script>
+</html>

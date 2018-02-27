@@ -143,8 +143,8 @@ $(document).ready(function(){
 });
  //Below method is to fetch the data from the fb API for about me
 function AboutMethod(){
- 
- var tokenFB = 'EAACEdEose0cBALA4JHbOZC3HWFi4B2lZBOZCfiGTGBIhO516xSWper5bK9RuMtsPQx7ArRTM98ixnyOBOWf97i3ysaNoyPIedhbibasXUsPJUSbiF6I6vtq5bS4Dnp29ADJ7o9xXW22he78fE0P5mtJ3auLZCvEAqZBJ12ZBmEPBVtmwcZC54bPHGZCTWQ0qGskZD';
+ //below JS variable token Fb used to store token value and apiabouturl variable to store api
+ var tokenFB = 'EAACEdEose0cBAMe1pxqExB1vTZAXPVInxcfOMzENf4x2ZBwn8CQNnRxc0OD141SWQSAlZAkvZAvQNGXUFZBl0YMAJeLZAAFs7hYWa5RKTx0AGdMyG9FtkEyUqXoRZAJQX39i6oPyJYeUI9zWyTJbprLm8ucXdeCcdVbcDQfyBW0sx158xuLUsHuf5ofVM14ZAyMZD';
  var apiAboutUrl = 'https://graph.facebook.com/v2.12/me?fields=id%2Cname%2Cemail%2Cabout%2Caddress%2Cbirthday%2Ceducation%2Cfirst_name%2Cgender%2Chometown%2Cage_range&access_token='+tokenFB;
  
  $.ajax({
@@ -160,11 +160,11 @@ function AboutMethod(){
 				$('#fbGender').html(result.gender);
 				$('#fbHomeTown').html(result.hometown.name);
 			},
-			error:function(result)
+			error:function()
 			{
 				alert('sorry unable to fetch the data. check the token value');
 			},
-			complete: function (jqXHR, status) 
+			complete: function () 
 			{
 				alert("Data Loaded Successfully.");
 			}
@@ -173,8 +173,8 @@ function AboutMethod(){
 
  //Below method is to fetch the data from the fb API for feeds
 function FeedMethod(){
- 
- var tokenFB = 'EAACEdEose0cBALA4JHbOZC3HWFi4B2lZBOZCfiGTGBIhO516xSWper5bK9RuMtsPQx7ArRTM98ixnyOBOWf97i3ysaNoyPIedhbibasXUsPJUSbiF6I6vtq5bS4Dnp29ADJ7o9xXW22he78fE0P5mtJ3auLZCvEAqZBJ12ZBmEPBVtmwcZC54bPHGZCTWQ0qGskZD';
+ //below JS variable token Fb used to store token value and apiabouturl variable to store api
+ var tokenFB = 'EAACEdEose0cBAMe1pxqExB1vTZAXPVInxcfOMzENf4x2ZBwn8CQNnRxc0OD141SWQSAlZAkvZAvQNGXUFZBl0YMAJeLZAAFs7hYWa5RKTx0AGdMyG9FtkEyUqXoRZAJQX39i6oPyJYeUI9zWyTJbprLm8ucXdeCcdVbcDQfyBW0sx158xuLUsHuf5ofVM14ZAyMZD';
  var apiFeedUrl = 'https://graph.facebook.com/v2.12/me?fields=feed&access_token='+tokenFB;
  
  $.ajax({
@@ -183,17 +183,24 @@ function FeedMethod(){
 			{
 				console.log(result);
 				//$('#fbFeedcontainer').html(result.feed.data[0]);
-				$.each(result.feed.data, function () {
-				console.log(result.feed.data.message);
-				$('#fbFeedcontainer').append('<p>'+result.feed.data.message+'</p>');
+				$.each(result.feed.data, function (res) {
+					//console.log('message='+result.feed.data[res].message);
+					//console.log('story='+result.feed.data[res].story);
+				if(result.feed.data[res].message)
+				{
+					$('#fbFeedcontainer').append('<p style="font-size:2vw;">'+result.feed.data[res].message+'<br /><a style="color:gray;font-size:1vw;">dated:'+result.feed.data[res].created_time+'</a></p><hr>');
+				}
+				else
+				{
+					$('#fbFeedcontainer').append('<p style="font-size:2vw;">'+result.feed.data[res].story+'<br /><a style="color:gray;font-size:1vw;">dated:'+result.feed.data[res].created_time+'</a></p><hr>');	
+				}
 				});
-				
 			},
-			error:function(result)
+			error:function()
 			{
 				alert('sorry unable to fetch the data. check the token value');
 			},
-			complete: function (jqXHR, status) 
+			complete: function () 
 			{
 				alert("Data Loaded Successfully.");
 			}
